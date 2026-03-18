@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha D&D 5e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ── Tokens ─────────────────────────────────────────────────── */
+  :root {
+    --ink:        #1a1208;
+    --parchment:  #f4ead6;
+    --parch-dark: #e8d9b8;
+    --parch-edge: #c9b48a;
+    --blood:      #8b1a1a;
+    --blood-light:#b52020;
+    --gold:       #c9922a;
+    --gold-light: #e6b84a;
+    --shadow:     rgba(26,18,8,0.35);
+    --aged:       #6b5533;
+    --fog:        rgba(244,234,214,0.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0d0a05;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, #1e1208 0%, transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    color: var(--ink);
+    font-family: 'Crimson Pro', serif;
+    font-size: 16px;
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ── Shell ────────────────────────────────────────────────────── */
+  .shell {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ───────────────────────────────────────────────────── */
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  header::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin-bottom: 1.5rem;
+  }
+  header::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin-top: 1.5rem;
+  }
+  .header-dragon {
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: .4rem;
+    filter: drop-shadow(0 0 18px rgba(201,146,42,.6));
+  }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 900;
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    color: var(--gold-light);
+    letter-spacing: .06em;
+    text-shadow: 0 2px 12px rgba(201,146,42,.5), 0 0 40px rgba(201,146,42,.2);
+  }
+  .subtitle {
+    font-family: 'IM Fell English', serif;
+    font-style: italic;
+    color: var(--parch-edge);
+    font-size: 1rem;
+    margin-top: .25rem;
+  }
+
+  /* ── API config bar ───────────────────────────────────────────── */
+  .api-bar {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(201,146,42,.25);
+    border-radius: 6px;
+    padding: .6rem 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .api-bar label {
+    font-family: 'Cinzel', serif;
+    font-size: .72rem;
+    color: var(--gold);
+    letter-spacing: .08em;
+    white-space: nowrap;
+  }
+  .api-bar input {
+    flex: 1;
+    min-width: 200px;
+    background: rgba(0,0,0,.3);
+    border: 1px solid rgba(201,146,42,.3);
+    border-radius: 4px;
+    color: var(--parchment);
+    font-family: monospace;
+    font-size: .85rem;
+    padding: .35rem .6rem;
+  }
+  .api-bar input:focus { outline: none; border-color: var(--gold); }
+
+  /* ── Tabs ─────────────────────────────────────────────────────── */
+  .tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 2;
+  }
+  .tab-btn {
+    font-family: 'Cinzel', serif;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    color: var(--parch-edge);
+    background: rgba(244,234,214,.06);
+    border: 1px solid rgba(201,146,42,.22);
+    border-bottom: none;
+    padding: .5rem 1.1rem .55rem;
+    cursor: pointer;
+    border-radius: 5px 5px 0 0;
+    transition: background .2s, color .2s;
+    position: relative;
+    top: 1px;
+  }
+  .tab-btn:hover { color: var(--gold-light); background: rgba(244,234,214,.1); }
+  .tab-btn.active {
+    color: var(--ink);
+    background: var(--parchment);
+    border-color: var(--parch-edge);
+  }
+
+  /* ── Parchment card ───────────────────────────────────────────── */
+  .parchment {
+    background: var(--parchment);
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E"),
+      linear-gradient(160deg, #f9f2e3 0%, var(--parchment) 40%, #ecdfc0 100%);
+    border: 1.5px solid var(--parch-edge);
+    border-radius: 0 6px 6px 6px;
+    padding: 2rem 2rem 2.5rem;
+    box-shadow:
+      0 0 0 1px rgba(201,146,42,.15),
+      0 8px 40px rgba(0,0,0,.55),
+      inset 0 1px 0 rgba(255,255,255,.4);
+    display: none;
+  }
+  .parchment.active { display: block; }
+
+  /* ── Section titles ───────────────────────────────────────────── */
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: .85rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--blood);
+    text-transform: uppercase;
+    margin: 1.8rem 0 1rem;
+    padding-bottom: .4rem;
+    border-bottom: 1.5px solid var(--parch-edge);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .section-title:first-child { margin-top: 0; }
+  .section-title::before {
+    content: '⚜';
+    color: var(--gold);
+    font-size: .9rem;
+  }
+
+  /* ── Grid helpers ─────────────────────────────────────────────── */
+  .grid-2  { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .grid-3  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .grid-4  { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .grid-6  { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+  @media (max-width: 700px) {
+    .grid-6 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+
+  /* ── Field ─────────────────────────────────────────────────────── */
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+  }
+  .field label {
+    font-family: 'Cinzel', serif;
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: var(--aged);
+    text-transform: uppercase;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    background: rgba(255,255,255,.55);
+    border: 1px solid var(--parch-edge);
+    border-radius: 3px;
+    color: var(--ink);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    padding: .38rem .55rem;
+    transition: border-color .2s, box-shadow .2s;
+    width: 100%;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(201,146,42,.15);
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.5;
+  }
+
+  /* ── Stat box (atributos) ─────────────────────────────────────── */
+  .stat-box {
+    background: linear-gradient(160deg, #fff8ec 0%, #ecdfc0 100%);
+    border: 1.5px solid var(--parch-edge);
+    border-radius: 8px;
+    padding: .8rem .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 2px 6px rgba(0,0,0,.12);
+  }
+  .stat-box label {
+    font-family: 'Cinzel', serif;
+    font-size: .6rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--blood);
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .stat-box input[type=number] {
+    width: 100%;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: rgba(255,255,255,.7);
+    border: 1px solid var(--parch-edge);
+    border-radius: 4px;
+    padding: .2rem .2rem;
+  }
+  .stat-box .mod-display {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--blood);
+    background: rgba(139,26,26,.1);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(139,26,26,.3);
+  }
+
+  /* ── Skill rows ───────────────────────────────────────────────── */
+  .skill-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .3rem .8rem;
+  }
+  @media (max-width: 600px) { .skill-grid { grid-template-columns: 1fr; } }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .25rem .4rem;
+    border-radius: 3px;
+    transition: background .15s;
+  }
+  .skill-row:hover { background: rgba(201,146,42,.08); }
+  .skill-row input[type=checkbox] { accent-color: var(--blood); width: 14px; height: 14px; flex-shrink: 0; }
+  .skill-row .skill-val {
+    font-family: 'Cinzel', serif;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--blood);
+    min-width: 28px;
+    text-align: right;
+  }
+  .skill-row .skill-name {
+    font-size: .92rem;
+    color: var(--ink);
+    flex: 1;
+  }
+  .skill-row .skill-attr {
+    font-size: .72rem;
+    color: var(--aged);
+    font-style: italic;
+  }
+
+  /* ── Combat stats ─────────────────────────────────────────────── */
+  .combat-stat {
+    background: linear-gradient(160deg, #fff8ec 0%, #ecdfc0 100%);
+    border: 1.5px solid var(--parch-edge);
+    border-radius: 8px;
+    padding: .7rem .6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .3rem;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+    text-align: center;
+  }
+  .combat-stat label {
+    font-family: 'Cinzel', serif;
+    font-size: .58rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    color: var(--aged);
+    text-transform: uppercase;
+  }
+  .combat-stat input,
+  .combat-stat .auto-val {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--blood);
+    text-align: center;
+    background: rgba(255,255,255,.6);
+    border: 1px solid var(--parch-edge);
+    border-radius: 4px;
+    width: 100%;
+    padding: .2rem;
+  }
+  .combat-stat .auto-val { border-style: dashed; color: var(--aged); }
+
+  /* ── Attack row ───────────────────────────────────────────────── */
+  .attack-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr;
+    gap: .6rem;
+    align-items: end;
+    padding: .5rem;
+    background: rgba(255,255,255,.3);
+    border: 1px solid var(--parch-edge);
+    border-radius: 4px;
+    margin-bottom: .5rem;
+  }
+  .attack-row .attack-num {
+    grid-column: 1 / -1;
+    font-family: 'Cinzel', serif;
+    font-size: .65rem;
+    font-weight: 700;
+    color: var(--blood);
+    letter-spacing: .08em;
+  }
+
+  /* ── Checkbox field ───────────────────────────────────────────── */
+  .check-field {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    cursor: pointer;
+  }
+  .check-field input[type=checkbox] { accent-color: var(--blood); width: 16px; height: 16px; }
+  .check-field span {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+
+  /* ── HP row ───────────────────────────────────────────────────── */
+  .hp-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .hp-box {
+    background: linear-gradient(160deg, #fff8ec 0%, #ecdfc0 100%);
+    border: 1.5px solid var(--parch-edge);
+    border-radius: 8px;
+    padding: .8rem;
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+  }
+  .hp-box label {
+    font-family: 'Cinzel', serif;
+    font-size: .6rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    color: var(--aged);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: .4rem;
+  }
+  .hp-box input {
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--blood);
+    text-align: center;
+    background: rgba(255,255,255,.6);
+    border: 1px solid var(--parch-edge);
+    border-radius: 4px;
+    width: 100%;
+    padding: .2rem;
+  }
+
+  /* ── Divider ──────────────────────────────────────────────────── */
+  hr {
+    border: none;
+    border-top: 1px solid var(--parch-edge);
+    margin: 1.5rem 0;
+  }
+
+  /* ── Passive perception ───────────────────────────────────────── */
+  .passive-box {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    background: rgba(139,26,26,.08);
+    border: 1.5px solid rgba(139,26,26,.25);
+    border-radius: 6px;
+    padding: .5rem 1rem;
+  }
+  .passive-box .pp-label {
+    font-family: 'Cinzel', serif;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    color: var(--aged);
+    text-transform: uppercase;
+  }
+  .passive-box .pp-val {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--blood);
+  }
+
+  /* ── Generate button ──────────────────────────────────────────── */
+  .btn-generate {
+    display: block;
+    width: 100%;
+    max-width: 460px;
+    margin: 2.5rem auto 0;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--blood) 0%, #6b1212 100%);
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(139,26,26,.4), inset 0 1px 0 rgba(255,255,255,.15);
+    transition: transform .15s, box-shadow .15s, filter .15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-generate::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,.1) 0%, transparent 60%);
+  }
+  .btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(139,26,26,.5), inset 0 1px 0 rgba(255,255,255,.15);
+    filter: brightness(1.1);
+  }
+  .btn-generate:active { transform: translateY(0); }
+  .btn-generate:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+  /* ── Toast ────────────────────────────────────────────────────── */
+  #toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: #1a1208;
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    font-size: .85rem;
+    letter-spacing: .06em;
+    padding: .8rem 1.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--gold);
+    box-shadow: 0 4px 20px rgba(0,0,0,.5);
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+    z-index: 9999;
+    white-space: nowrap;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast.error { border-color: var(--blood); color: #ff8a8a; }
+
+  /* ── Spinner ──────────────────────────────────────────────────── */
+  .spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid rgba(230,184,74,.3);
+    border-top-color: var(--gold-light);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    vertical-align: middle;
+    margin-right: .4rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Fade in ─────────────────────────────────────────────────── */
+  .parchment { animation: fadeIn .3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Header -->
+  <header>
+    <div class="header-dragon">🐉</div>
+    <h1>Ficha de Personagem</h1>
+    <p class="subtitle">Dungeons &amp; Dragons — 5ª Edição</p>
+  </header>
+
+  <!-- API config -->
+  <div class="api-bar">
+    <label>URL DA API</label>
+    <input type="text" id="apiUrl" value="http://127.0.0.1:8000" placeholder="http://127.0.0.1:8000">
+  </div>
+
+  <!-- Tab nav -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="info">📝 Informações</button>
+    <button class="tab-btn" data-tab="combate">⚔️ Combate & Perícias</button>
+    <button class="tab-btn" data-tab="ataques">🎒 Ataques & Equipamento</button>
+    <button class="tab-btn" data-tab="personalidade">💬 Personalidade</button>
+    <button class="tab-btn" data-tab="historia">📖 Aparência & Histórico</button>
+    <button class="tab-btn" data-tab="magias">✨ Magias</button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════
+       ABA 1 — INFORMAÇÕES
+  ════════════════════════════════════════════════════ -->
+  <div class="parchment active" id="tab-info">
+    <div class="section-title">Identificação do Personagem</div>
+    <div class="grid-3">
+      <div class="field"><label>Nome do Personagem *</label><input type="text" id="nome_personagem" placeholder="ex.: Aldric Pedraforte"></div>
+      <div class="field"><label>Classe e Nível</label><input type="text" id="classe_nivel" placeholder="ex.: Guerreiro 5"></div>
+      <div class="field"><label>Antecedente</label><input type="text" id="antecedente" placeholder="ex.: Soldado"></div>
+      <div class="field"><label>Nome do Jogador</label><input type="text" id="nome_jogador"></div>
+      <div class="field"><label>Raça</label><input type="text" id="raca" placeholder="ex.: Humano"></div>
+      <div class="field"><label>Alinhamento</label><input type="text" id="alinhamento" placeholder="ex.: Leal e Bom"></div>
+    </div>
+    <div class="grid-3" style="margin-top:1rem">
+      <div class="field"><label>Pontos de Experiência</label><input type="number" id="experiencia" value="0" min="0"></div>
+      <div class="field" style="justify-content:flex-end">
+        <label class="check-field"><input type="checkbox" id="inspiracao"> <span>✦ Inspiração</span></label>
+      </div>
+      <div class="field"><label>Bônus de Proficiência</label>
+        <select id="bonus_proficiencia">
+          <option value="2">+2 (Níveis 1–4)</option>
+          <option value="3">+3 (Níveis 5–8)</option>
+          <option value="4">+4 (Níveis 9–12)</option>
+          <option value="5">+5 (Níveis 13–16)</option>
+          <option value="6">+6 (Níveis 17–20)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-title">Atributos</div>
+    <div class="grid-6" id="stats-grid">
+      <!-- gerado por JS -->
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       ABA 2 — COMBATE & PERÍCIAS
+  ════════════════════════════════════════════════════ -->
+  <div class="parchment" id="tab-combate">
+    <div class="section-title">Stats de Combate</div>
+    <div class="grid-4">
+      <div class="combat-stat">
+        <label>Classe de Armadura</label>
+        <input type="number" id="classe_armadura" value="10" min="0">
+      </div>
+      <div class="combat-stat">
+        <label>Iniciativa</label>
+        <div class="auto-val" id="iniciativa_display">+0</div>
+      </div>
+      <div class="combat-stat">
+        <label>Deslocamento (m)</label>
+        <input type="number" id="deslocamento" value="9" min="0" step="1">
+      </div>
+      <div class="combat-stat">
+        <label>Dado de Vida</label>
+        <input type="text" id="dado_vida" placeholder="1d10" style="font-size:1rem">
+      </div>
+    </div>
+
+    <div class="section-title">Pontos de Vida</div>
+    <div class="hp-row">
+      <div class="hp-box"><label>PV Máximo</label><input type="number" id="pv_maximo" value="10" min="0"></div>
+      <div class="hp-box"><label>PV Atuais</label><input type="number" id="pv_atuais" value="10" min="0"></div>
+      <div class="hp-box"><label>PV Temporários</label><input type="number" id="pv_temporarios" value="0" min="0"></div>
+    </div>
+
+    <div class="section-title">Salvaguardas</div>
+    <div class="skill-grid" id="salv-grid">
+      <!-- gerado por JS -->
+    </div>
+
+    <hr>
+    <div class="section-title">Perícias</div>
+    <div style="display:flex; align-items:center; gap:1rem; margin-bottom:.8rem; flex-wrap:wrap;">
+      <div class="passive-box">
+        <span class="pp-label">Percepção Passiva</span>
+        <span class="pp-val" id="percepcao_passiva_display">10</span>
+      </div>
+    </div>
+    <div class="skill-grid" id="skill-grid">
+      <!-- gerado por JS -->
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       ABA 3 — ATAQUES & EQUIPAMENTO
+  ════════════════════════════════════════════════════ -->
+  <div class="parchment" id="tab-ataques">
+    <div class="section-title">Ataques &amp; Conjuração</div>
+    <div id="attacks-container">
+      <!-- gerado por JS -->
+    </div>
+    <div class="field" style="margin-top:.5rem">
+      <label>Notas Adicionais de Ataques &amp; Conjuração</label>
+      <textarea id="ataques_conjuracao_extra" rows="3"></textarea>
+    </div>
+
+    <div class="section-title">Equipamento</div>
+    <div class="field">
+      <label>Itens, Armas, Armaduras, Dinheiro…</label>
+      <textarea id="equipamento" rows="5" placeholder="ex.: 10 PO, Espada Longa, Cota de Malha…"></textarea>
+    </div>
+
+    <div class="section-title">Outras Proficiências &amp; Idiomas</div>
+    <div class="field">
+      <textarea id="outras_proficiencias" rows="4" placeholder="Armaduras leves, médias e pesadas; escudos; armas marciais…"></textarea>
+    </div>
+
+    <div class="section-title">Características &amp; Talentos</div>
+    <div class="field">
+      <textarea id="caracteristicas_talentos" rows="5" placeholder="Características de classe, raciais e talentos…"></textarea>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       ABA 4 — PERSONALIDADE
+  ════════════════════════════════════════════════════ -->
+  <div class="parchment" id="tab-personalidade">
+    <div class="section-title">Traços de Personalidade</div>
+    <div class="grid-2">
+      <div class="field"><label>Traços de Personalidade</label><textarea id="tracos_personalidade" rows="4"></textarea></div>
+      <div class="field"><label>Ideais</label><textarea id="ideais" rows="4"></textarea></div>
+      <div class="field"><label>Vínculos</label><textarea id="vinculos" rows="4"></textarea></div>
+      <div class="field"><label>Fraquezas</label><textarea id="fraquezas" rows="4"></textarea></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       ABA 5 — APARÊNCIA & HISTÓRICO
+  ════════════════════════════════════════════════════ -->
+  <div class="parchment" id="tab-historia">
+    <div class="section-title">Aparência Física</div>
+    <div class="grid-3">
+      <div class="field"><label>Idade</label><input type="text" id="idade" placeholder="ex.: 28 anos"></div>
+      <div class="field"><label>Altura</label><input type="text" id="altura" placeholder="ex.: 1,80m"></div>
+      <div class="field"><label>Peso</label><input type="text" id="peso" placeholder="ex.: 80 kg"></div>
+      <div class="field"><label>Cor dos Olhos</label><input type="text" id="cor_olhos"></div>
+      <div class="field"><label>Cor da Pele</label><input type="text" id="cor_pele"></div>
+      <div class="field"><label>Cor do Cabelo</label><input type="text" id="cor_cabelo"></div>
+    </div>
+
+    <div class="section-title">Aliados &amp; Organizações</div>
+    <div class="field"><label>Nome da Organização / Aliado</label><input type="text" id="aliados_nome"></div>
+    <div class="field" style="margin-top:.6rem"><label>Descrição</label><textarea id="aliados_organizacoes" rows="3"></textarea></div>
+
+    <div class="section-title">História do Personagem</div>
+    <div class="field"><textarea id="historia_personagem" rows="6" placeholder="Backstory do personagem…"></textarea></div>
+
+    <div class="section-title">Tesouros</div>
+    <div class="field"><textarea id="tesouros" rows="3" placeholder="Itens mágicos, relíquias, riquezas notáveis…"></textarea></div>
+
+    <div class="section-title">Características &amp; Talentos Adicionais</div>
+    <div class="field"><textarea id="caract_talentos_adicionais" rows="3" placeholder="Outras características não listadas na página 1…"></textarea></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       ABA 6 — MAGIAS
+  ════════════════════════════════════════════════════ -->
+  <div class="parchment" id="tab-magias">
+    <div class="section-title">Classe Conjuradora</div>
+    <div class="grid-4">
+      <div class="field"><label>Classe Conjuradora</label><input type="text" id="classe_conjuradora" placeholder="ex.: Mago"></div>
+      <div class="field"><label>Atributo de Conjuração</label><input type="text" id="atributo_conjuracao" placeholder="ex.: Inteligência"></div>
+      <div class="field"><label>CD para Evitar Magias</label><input type="text" id="cd_magias" placeholder="ex.: 14"></div>
+      <div class="field"><label>Mod. de Ataque Mágico</label><input type="text" id="bonus_ataque_magico" placeholder="ex.: +6"></div>
+    </div>
+  </div>
+
+  <!-- Generate button (always visible) -->
+  <button class="btn-generate" id="btn-generate" onclick="gerarPDF()">
+    🎲 Gerar Ficha em PDF
+  </button>
+
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────
+// Dados estáticos
+// ─────────────────────────────────────────────────────────────────
+const ATRIBUTOS = [
+  { id: 'forca',        label: 'Força' },
+  { id: 'destreza',     label: 'Destreza' },
+  { id: 'constituicao', label: 'Constituição' },
+  { id: 'inteligencia', label: 'Inteligência' },
+  { id: 'sabedoria',    label: 'Sabedoria' },
+  { id: 'carisma',      label: 'Carisma' },
+];
+
+const SALVAGUARDAS = [
+  { label: 'Força',         chave: 'forca' },
+  { label: 'Destreza',      chave: 'destreza' },
+  { label: 'Constituição',  chave: 'constituicao' },
+  { label: 'Inteligência',  chave: 'inteligencia' },
+  { label: 'Sabedoria',     chave: 'sabedoria' },
+  { label: 'Carisma',       chave: 'carisma' },
+];
+
+const PERICIAS = [
+  { label: 'Acrobacia',         chave: 'acrobacia',      attr: 'destreza' },
+  { label: 'Arcanismo',         chave: 'arcanismo',      attr: 'inteligencia' },
+  { label: 'Atletismo',         chave: 'atletismo',      attr: 'forca' },
+  { label: 'Atuação',           chave: 'atuacao',        attr: 'carisma' },
+  { label: 'Enganação',         chave: 'enganacao',      attr: 'carisma' },
+  { label: 'Furtividade',       chave: 'furtividade',    attr: 'destreza' },
+  { label: 'História',          chave: 'historia',       attr: 'inteligencia' },
+  { label: 'Intimidação',       chave: 'intimidacao',    attr: 'carisma' },
+  { label: 'Intuição',          chave: 'intuicao',       attr: 'sabedoria' },
+  { label: 'Investigação',      chave: 'investigacao',   attr: 'inteligencia' },
+  { label: 'Lidar c/ Animais',  chave: 'lidar_animais',  attr: 'sabedoria' },
+  { label: 'Medicina',          chave: 'medicina',       attr: 'sabedoria' },
+  { label: 'Natureza',          chave: 'natureza',       attr: 'inteligencia' },
+  { label: 'Percepção',         chave: 'percepcao',      attr: 'sabedoria' },
+  { label: 'Persuasão',         chave: 'persuasao',      attr: 'carisma' },
+  { label: 'Prestidigitação',   chave: 'prestidigitacao',attr: 'destreza' },
+  { label: 'Religião',          chave: 'religiao',       attr: 'inteligencia' },
+  { label: 'Sobrevivência',     chave: 'sobrevivencia',  attr: 'sabedoria' },
+];
+
+// ─────────────────────────────────────────────────────────────────
+// Utilitários
+// ─────────────────────────────────────────────────────────────────
+const mod = score => Math.floor((score - 10) / 2);
+const fmt = m => (m >= 0 ? `+${m}` : `${m}`);
+const val = id => {
+  const el = document.getElementById(id);
+  if (!el) return undefined;
+  if (el.type === 'checkbox') return el.checked;
+  if (el.type === 'number') return Number(el.value);
+  return el.value || undefined;
+};
+
+// ─────────────────────────────────────────────────────────────────
+// Build stat boxes
+// ─────────────────────────────────────────────────────────────────
+function buildStatBoxes() {
+  const grid = document.getElementById('stats-grid');
+  ATRIBUTOS.forEach(a => {
+    grid.innerHTML += `
+      <div class="stat-box">
+        <label>${a.label}</label>
+        <input type="number" id="${a.id}" value="10" min="1" max="30"
+               oninput="recalcular()">
+        <div class="mod-display" id="${a.id}_mod">+0</div>
+      </div>`;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Build salvaguarda rows
+// ─────────────────────────────────────────────────────────────────
+function buildSalvGuardas() {
+  const grid = document.getElementById('salv-grid');
+  SALVAGUARDAS.forEach(s => {
+    grid.innerHTML += `
+      <div class="skill-row">
+        <input type="checkbox" id="salv_${s.chave}_prof" onchange="recalcular()">
+        <span class="skill-val" id="salv_${s.chave}_val">+0</span>
+        <span class="skill-name">${s.label}</span>
+      </div>`;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Build perícia rows
+// ─────────────────────────────────────────────────────────────────
+function buildPericias() {
+  const grid = document.getElementById('skill-grid');
+  const ATTR_ABBR = { forca:'For', destreza:'Des', constituicao:'Con', inteligencia:'Int', sabedoria:'Sab', carisma:'Car' };
+  PERICIAS.forEach(p => {
+    grid.innerHTML += `
+      <div class="skill-row">
+        <input type="checkbox" id="${p.chave}_prof" onchange="recalcular()">
+        <span class="skill-val" id="${p.chave}_val">+0</span>
+        <span class="skill-name">${p.label}</span>
+        <span class="skill-attr">(${ATTR_ABBR[p.attr]})</span>
+      </div>`;
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Build attack rows
+// ─────────────────────────────────────────────────────────────────
+function buildAttacks() {
+  const c = document.getElementById('attacks-container');
+  for (let i = 1; i <= 3; i++) {
+    c.innerHTML += `
+      <div class="attack-row">
+        <span class="attack-num">Ataque ${i}</span>
+        <div class="field"><label>Nome</label>
+          <input type="text" id="ataque${i}_nome" placeholder="ex.: Espada Longa"></div>
+        <div class="field"><label>Bônus</label>
+          <input type="text" id="ataque${i}_bonus" placeholder="+5"></div>
+        <div class="field"><label>Dano / Tipo</label>
+          <input type="text" id="ataque${i}_dano" placeholder="1d8+3 cortante"></div>
+      </div>`;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Recalcular modificadores, salvaguardas, perícias
+// ─────────────────────────────────────────────────────────────────
+function recalcular() {
+  const bp = Number(document.getElementById('bonus_proficiencia').value) || 2;
+  const mods = {};
+
+  ATRIBUTOS.forEach(a => {
+    const score = Number(document.getElementById(a.id)?.value || 10);
+    mods[a.id] = mod(score);
+    const el = document.getElementById(`${a.id}_mod`);
+    if (el) el.textContent = fmt(mods[a.id]);
+  });
+
+  // Iniciativa
+  const initEl = document.getElementById('iniciativa_display');
+  if (initEl) initEl.textContent = fmt(mods.destreza || 0);
+
+  // Salvaguardas
+  SALVAGUARDAS.forEach(s => {
+    const prof = document.getElementById(`salv_${s.chave}_prof`)?.checked;
+    const total = (mods[s.chave] || 0) + (prof ? bp : 0);
+    const el = document.getElementById(`salv_${s.chave}_val`);
+    if (el) el.textContent = fmt(total);
+  });
+
+  // Perícias
+  PERICIAS.forEach(p => {
+    const prof = document.getElementById(`${p.chave}_prof`)?.checked;
+    const total = (mods[p.attr] || 0) + (prof ? bp : 0);
+    const el = document.getElementById(`${p.chave}_val`);
+    if (el) el.textContent = fmt(total);
+  });
+
+  // Percepção passiva
+  const percEl = document.getElementById('percepcao_prof');
+  const percProf = percEl ? percEl.checked : false;
+  const pp = 10 + (mods.sabedoria || 0) + (percProf ? bp : 0);
+  const ppEl = document.getElementById('percepcao_passiva_display');
+  if (ppEl) ppEl.textContent = pp;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Tabs
+// ─────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.parchment').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────
+// Toast
+// ─────────────────────────────────────────────────────────────────
+function toast(msg, isError = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = isError ? 'error show' : 'show';
+  setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Montar payload
+// ─────────────────────────────────────────────────────────────────
+function montarPayload() {
+  const bp = Number(document.getElementById('bonus_proficiencia').value);
+  const payload = {
+    nome_personagem:    val('nome_personagem') || '',
+    classe_nivel:       val('classe_nivel'),
+    antecedente:        val('antecedente'),
+    nome_jogador:       val('nome_jogador'),
+    raca:               val('raca'),
+    alinhamento:        val('alinhamento'),
+    experiencia:        val('experiencia') || 0,
+    inspiracao:         val('inspiracao') || false,
+    bonus_proficiencia: bp,
+    forca:              val('forca') || 10,
+    destreza:           val('destreza') || 10,
+    constituicao:       val('constituicao') || 10,
+    inteligencia:       val('inteligencia') || 10,
+    sabedoria:          val('sabedoria') || 10,
+    carisma:            val('carisma') || 10,
+    classe_armadura:    val('classe_armadura') || 10,
+    deslocamento:       val('deslocamento') || 9,
+    dado_vida:          val('dado_vida'),
+    pv_maximo:          val('pv_maximo') || 0,
+    pv_atuais:          val('pv_atuais') || 0,
+    pv_temporarios:     val('pv_temporarios') || 0,
+  };
+
+  SALVAGUARDAS.forEach(s => {
+    payload[`salv_${s.chave}_prof`] = val(`salv_${s.chave}_prof`) || false;
+  });
+  PERICIAS.forEach(p => {
+    payload[`${p.chave}_prof`] = val(`${p.chave}_prof`) || false;
+  });
+
+  for (let i = 1; i <= 3; i++) {
+    payload[`ataque${i}_nome`]  = val(`ataque${i}_nome`);
+    payload[`ataque${i}_bonus`] = val(`ataque${i}_bonus`);
+    payload[`ataque${i}_dano`]  = val(`ataque${i}_dano`);
+  }
+
+  const textos = [
+    'ataques_conjuracao_extra','equipamento','outras_proficiencias','caracteristicas_talentos',
+    'tracos_personalidade','ideais','vinculos','fraquezas',
+    'idade','altura','peso','cor_olhos','cor_pele','cor_cabelo',
+    'aliados_nome','aliados_organizacoes','historia_personagem','tesouros','caract_talentos_adicionais',
+    'classe_conjuradora','atributo_conjuracao','cd_magias','bonus_ataque_magico',
+  ];
+  textos.forEach(k => { payload[k] = val(k); });
+
+  return payload;
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Gerar PDF
+// ─────────────────────────────────────────────────────────────────
+async function gerarPDF() {
+  const nome = document.getElementById('nome_personagem').value.trim();
+  if (!nome) {
+    toast('⚠ Preencha o nome do personagem!', true);
+    // Volta para aba de informações
+    document.querySelector('[data-tab="info"]').click();
+    return;
+  }
+
+  const baseUrl = document.getElementById('apiUrl').value.replace(/\/$/, '');
+  const btn = document.getElementById('btn-generate');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Gerando…';
+
+  try {
+    const resp = await fetch(`${baseUrl}/ficha/gerar-pdf`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(montarPayload()),
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({ detail: resp.statusText }));
+      throw new Error(err.detail || `Erro ${resp.status}`);
+    }
+
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ficha_${nome.replace(/\s+/g, '_').toLowerCase()}.pdf`;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    toast('✅ PDF gerado com sucesso!');
+  } catch (e) {
+    toast(`❌ ${e.message}`, true);
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🎲 Gerar Ficha em PDF';
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Init
+// ─────────────────────────────────────────────────────────────────
+buildStatBoxes();
+buildSalvGuardas();
+buildPericias();
+buildAttacks();
+recalcular();
+
+document.getElementById('bonus_proficiencia').addEventListener('change', recalcular);
+</script>
+</body>
+</html>
